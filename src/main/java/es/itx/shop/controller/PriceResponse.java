@@ -1,15 +1,20 @@
 package es.itx.shop.controller;
 
+import es.itx.prices.application.PriceFinderResponse;
 import es.itx.prices.domain.Price;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-// Devuelva como datos de salida: identificador de producto(PRODUCT_ID), identificador de cadena(BRAND_ID?), tarifa
-// a aplicar(PRICE_LIST), fechas de aplicación(START_DATE y END_DATE) y precio final a aplicar(PRICE).
 public record PriceResponse(
         String productId,
         String brandId,
-        Date startDate,
-        Date endDate,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
         Price price
-) { }
+) {
+    public static PriceResponse from(PriceFinderResponse response) {
+        return new PriceResponse(
+                response.productId(), response.brandId(), response.dateRange().start(), response.dateRange().end(), response.price()
+        );
+    }
+}

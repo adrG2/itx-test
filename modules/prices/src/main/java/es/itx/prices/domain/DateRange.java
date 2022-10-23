@@ -1,13 +1,20 @@
 package es.itx.prices.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 public record DateRange(
-        LocalDate start,
-        LocalDate end
+        LocalDateTime start,
+        LocalDateTime end
 ) {
-    public static DateRange lastFiveDays() {
-        final var now = LocalDate.now();
-        return new DateRange(now.minusDays(5), now);
+
+    public static DateRange from(Date startDate, Date endDate) {
+        final var start = startDate.toInstant();
+        final var end = endDate.toInstant();
+        return new DateRange(
+                LocalDateTime.ofInstant(start, ZoneId.systemDefault()),
+                LocalDateTime.ofInstant(end, ZoneId.systemDefault())
+        );
     }
 }

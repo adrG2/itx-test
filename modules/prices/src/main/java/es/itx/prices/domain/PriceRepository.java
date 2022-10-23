@@ -1,8 +1,12 @@
 package es.itx.prices.domain;
 
-import java.time.LocalDate;
+import es.itx.shared.domain.criteria.Criteria;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PriceRepository {
-    List<PriceRate> findByDate(String productId, String brandId, LocalDate date);
+    List<PriceRate> matching(Criteria criteria);
+
+    List<PriceRate> matching(String productId, String brandId, LocalDateTime date);
 }
