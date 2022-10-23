@@ -1,0 +1,64 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'es.itx'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+ext {
+    springBootVersion = '2.5.6' // keep in sync with boot plugin
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project('modules:prices')
+    implementation project('modules:shared')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2:1.4.200'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+subprojects {
+    // this sets the group and version the same as the root
+    group = rootProject.group
+    version = rootProject.version
+
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            // use the same spring boot version as in the root
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+
+    // define dependencies every module will inherit
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+

@@ -1,0 +1,4 @@
+rootProject.name = 'itx-test'
+
+include 'modules:prices'
+include 'modules:shared'
