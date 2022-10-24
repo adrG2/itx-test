@@ -3,14 +3,12 @@ package es.itx.shop.controller;
 import es.itx.prices.application.PriceFinder;
 import es.itx.prices.application.PriceFinderQuery;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
 @RestController
+@RequestMapping("prices")
 public class PriceController {
 
     private final PriceFinder finder;
@@ -19,7 +17,7 @@ public class PriceController {
         this.finder = finder;
     }
 
-    @GetMapping("prices")
+    @GetMapping()
     @ResponseBody()
     public PriceResponse findPrice(
             @RequestParam(name = "productId") String productId,

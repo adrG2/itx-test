@@ -13,7 +13,7 @@ public record PriceRate(
 ) implements Serializable {
     public boolean isInRange(LocalDateTime date) {
         final var start = dateRange.start();
-        final var end = dateRange.start();
+        final var end = dateRange.end();
         return start.isBefore(date) && end.isAfter(date);
     }
 }

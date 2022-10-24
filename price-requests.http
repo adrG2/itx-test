@@ -1,0 +1,14 @@
+###
+GET http://localhost:8080/prices?productId=35455&brandId=1&date=2020-06-14T10:00:00
+
+###
+GET http://localhost:8080/prices?productId=35455&brandId=1&date=2020-06-14T16:00:00
+
+###
+GET http://localhost:8080/prices?productId=35455&brandId=1&date=2020-06-14T21:00:00
+
+###
+GET http://localhost:8080/prices?productId=35455&brandId=1&date=2020-06-15T10:00:00
+
+###
+GET http://localhost:8080/prices?productId=35455&brandId=1&date=2020-06-14T21:00:00
