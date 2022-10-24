@@ -17,14 +17,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(PriceNotFound.class)
     public ResponseEntity<ErrorResponse> notFound(PriceNotFound ex) {
-        ErrorResponse errorResponse =
+        final var errorResponse =
                 new ErrorResponse(ErrorCodeResponse.PRICE_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({DateTimeParseException.class, MethodArgumentTypeMismatchException.class})
     public ResponseEntity<ErrorResponse> dateInvalidFormat(Exception ex) {
-        ErrorResponse errorResponse =
+        final var errorResponse =
                 new ErrorResponse(ErrorCodeResponse.INVALID_FORMAT, ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

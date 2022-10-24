@@ -1,6 +1,7 @@
 package es.itx.prices.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public record PriceRate(
         String priceRateId,
@@ -10,7 +11,9 @@ public record PriceRate(
         int priority,
         Price price
 ) implements Serializable {
-    public static PriceRate empty() {
-        return new PriceRate(null, null, null,null, 0, null);
+    public boolean isInRange(LocalDateTime date) {
+        final var start = dateRange.start();
+        final var end = dateRange.start();
+        return start.isBefore(date) && end.isAfter(date);
     }
 }

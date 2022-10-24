@@ -4,11 +4,8 @@ import es.itx.prices.domain.DateRange;
 import es.itx.prices.domain.Price;
 import es.itx.prices.domain.PriceRate;
 import es.itx.prices.domain.PriceRepository;
-import es.itx.shared.domain.criteria.Criteria;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,19 +20,10 @@ public class H2PriceRepository implements PriceRepository {
     }
 
     @Override
-    public List<PriceRate> matching(Criteria criteria) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<PriceRate> matching(String productId, String brandId, LocalDateTime date) {
+    public List<PriceRate> matching(String productId, String brandId) {
         final var prices =
                 jpaPriceRepository.findByProductIdAndBrandId(productId, Long.valueOf(brandId));
         return prices.stream()
-                .filter(
-                        entity ->
-                                date.isAfter(entity.getStartDate())
-                                        && date.isBefore(entity.getEndDate()))
                 .map(this::buildPrice)
                 .collect(Collectors.toList());
     }

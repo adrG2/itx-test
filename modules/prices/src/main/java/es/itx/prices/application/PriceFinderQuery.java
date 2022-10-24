@@ -1,7 +1,9 @@
 package es.itx.prices.application;
 
+import java.time.LocalDateTime;
+
 public record PriceFinderQuery(
         String productId,
         String brandId,
-        java.time.LocalDateTime date
+        LocalDateTime date
 ) { }

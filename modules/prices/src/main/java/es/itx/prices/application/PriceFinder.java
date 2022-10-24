@@ -18,10 +18,12 @@ public final class PriceFinder {
     }
 
     public PriceFinderResponse find(PriceFinderQuery query) {
-        final var priceRates =
-                repository.matching(query.productId(), query.brandId(), query.date());
-        final var maxPriority = priceRates.stream().max(Comparator.comparing(PriceRate::priority));
-        return PriceFinderResponse.fromPriceRate(maxPriority.orElseThrow(priceNotfound(query)));
+        final var priceRateFound =
+                repository.matching(query.productId(), query.brandId()).stream()
+                        .filter(priceRate -> priceRate.isInRange(query.date()))
+                        .max(Comparator.comparing(PriceRate::priority))
+                        .orElseThrow(priceNotfound(query));
+        return PriceFinderResponse.fromPriceRate(priceRateFound);
     }
 
     private Supplier<PriceNotFound> priceNotfound(PriceFinderQuery query) {

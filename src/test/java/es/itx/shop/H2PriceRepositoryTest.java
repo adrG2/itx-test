@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
@@ -26,9 +23,25 @@ public class H2PriceRepositoryTest {
     }
 
     @Test
-    @DisplayName("[H2 price repository] - should ")
-    void shouldReturn() {
-        final var result = h2PriceRepository.matching("35455", "1", LocalDateTime.now());
-        assertEquals(Collections.emptyList(), result);
+    @DisplayName(
+            "[H2 price repository] - should return all prices for productId 35455 and brandId 1")
+    void shouldReturnPricesWhenProductIdAndBrandId() {
+        final var result = h2PriceRepository.matching("35455", "1");
+        assertEquals(4, result.size());
+    }
+
+    @Test
+    @DisplayName("[H2 price repository] - should not return anything for productId 3 and brandId 1")
+    void shouldNotReturnWhenProductIdNoExists() {
+        final var result = h2PriceRepository.matching("3", "1");
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    @DisplayName(
+            "[H2 price repository] - should not return anything for productId 35455 and brandId 2")
+    void shouldNotReturnWhenBrandIdNoExists() {
+        final var result = h2PriceRepository.matching("35455", "2");
+        assertEquals(0, result.size());
     }
 }
