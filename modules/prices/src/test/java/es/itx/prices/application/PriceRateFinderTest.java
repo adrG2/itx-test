@@ -50,18 +50,19 @@ public class PriceRateFinderTest {
     public void shouldReturnPriceWhenDateItsInRange() {
         final var productId = "35455";
         final var brandId = "1";
+        final var priceRate = buildPriceRate(productId, brandId);
+        when(priceRepository.matching(productId, brandId)).thenReturn(List.of(priceRate));
+
         final var fourDaysAgo = LocalDateTime.now().minus(Duration.ofDays(4));
         final var query = new PriceFinderQuery(productId, brandId, fourDaysAgo);
-        shouldReturnPriceRate(productId, brandId);
-        finder.find(query);
+        final var expected = PriceFinderResponse.fromPriceRate(priceRate);
+        Assertions.assertEquals(expected, finder.find(query));
     }
 
-    private void shouldReturnPriceRate(String productId, String brandId) {
+    private PriceRate buildPriceRate(String productId, String brandId) {
         final var now = LocalDateTime.now();
         final var sixDaysAgo = now.minus(Duration.ofDays(6));
         final var price = new Price("13.45", Currency.getInstance("EUR"));
-        final var priceRate =
-                new PriceRate("1", brandId, productId, new DateRange(sixDaysAgo, now), 0, price);
-        when(priceRepository.matching(productId, brandId)).thenReturn(List.of(priceRate));
+        return new PriceRate("1", brandId, productId, new DateRange(sixDaysAgo, now), 0, price);
     }
 }
