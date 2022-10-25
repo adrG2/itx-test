@@ -1,4 +1,4 @@
-package es.itx.shop;
+package es.itx.shop.persistence;
 
 import es.itx.prices.infrastructure.persistence.H2PriceRepository;
 import es.itx.prices.infrastructure.persistence.JpaPriceRepository;
